@@ -14,22 +14,49 @@ def shutdown():
     pass
 
 
+def rectangle(
+    x: float, y: float, a: float, b: float, color: tuple[float, float, float]
+):
+    left_x = x - a / 2.0
+    right_x = x + a / 2.0
+    bottom_y = y + b / 2.0
+    top_y = y - b / 2.0
+
+    glBegin(GL_TRIANGLES)
+    glColor3f(color[0], color[1], color[2])
+    glVertex2f(left_x, top_y)
+    glColor3f(color[1], color[2], color[0])
+    glVertex2f(left_x, bottom_y)
+    glColor3f(color[2], color[0], color[1])
+    glVertex2f(right_x, bottom_y)
+    glEnd()
+
+    glBegin(GL_TRIANGLES)
+    glColor3f(color[0], color[1], color[2])
+    glVertex2f(left_x, top_y)
+    glColor3f(color[1], color[2], color[0])
+    glVertex2f(right_x, top_y)
+    glColor3f(color[2], color[0], color[1])
+    glVertex2f(right_x, bottom_y)
+    glEnd()
+
+
+def center_indicator(size: float):
+    x = 0.0
+    y = 0.0
+    ratio = 10.0
+    color = (1.0, 0.1, 0.0)
+    rectangle(x, y, size * ratio, size, color)
+    rectangle(x, y, size, size * ratio, color)
+
+
 def render(time):
     glClear(GL_COLOR_BUFFER_BIT)
 
-    glColor3f(0.0, 1.0, 0.0)
-    glBegin(GL_TRIANGLES)
-    glVertex2f(0.0, 0.0)
-    glVertex2f(0.0, 50.0)
-    glVertex2f(50.0, 0.0)
-    glEnd()
-
-    glColor3f(1.0, 0.0, 0.0)
-    glBegin(GL_TRIANGLES)
-    glVertex2f(0.0, 0.0)
-    glVertex2f(0.0, 50.0)
-    glVertex2f(-50.0, 0.0)
-    glEnd()
+    rectangle(0.0, 0.0, 200.0, 100.0, (1.0, 0.0, 0.0))
+    rectangle(-100.0, -50.0, 200.0, 100.0, (0.0, 1.0, 0.0))
+    rectangle(100.0, 50.0, 200.0, 100.0, (0.0, 0.0, 1.0))
+    center_indicator(2.0)
 
     glFlush()
 
